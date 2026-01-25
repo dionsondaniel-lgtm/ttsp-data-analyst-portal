@@ -1,0 +1,5 @@
+{
+  "name": "TTSP Data Analyst Portal",
+  "description": "A futuristic, interactive dashboard for tracking Data Analyst cohort performance, attendance, and project grades, visualizing data from Google Sheets.",
+  "requestFramePermissions": []
+}
