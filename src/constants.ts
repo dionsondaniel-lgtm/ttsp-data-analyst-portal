@@ -1,13 +1,34 @@
-import { Module } from './types';
+// Use "import type" to satisfy verbatimModuleSyntax
+import type { Module, Cohort } from './types';
 
-export const MODULE_CONFIG = {
-  [Module.SQL]: { lessons: 19, hasProject: true },
-  [Module.EXCEL]: { lessons: 5, hasProject: true },
-  [Module.POWERBI]: { lessons: 5, hasProject: true },
-  [Module.PYTHON]: { lessons: 10, hasProject: true },
+/**
+ * Configuration for each module based on the Module type.
+ * Keys must match: 'SQL' | 'XLS' | 'PBI' | 'PYTHON'
+ */
+export const MODULE_CONFIG: Record<Module, { lessons: number; hasProject: boolean }> = {
+  SQL: { 
+    lessons: 19, 
+    hasProject: true 
+  },
+  XLS: { 
+    lessons: 5, 
+    hasProject: true 
+  },
+  PBI: { 
+    lessons: 5, 
+    hasProject: true 
+  },
+  PYTHON: { 
+    lessons: 10, 
+    hasProject: true 
+  },
 };
 
-// Must match the "COHORT_NO" values in your JSON exactly
-export const COHORT_OPTIONS = ['1ST', '2ND', '3RD', '4TH'];
+/**
+ * Available cohorts for filtering.
+ * Keys must match: '1ST' | '2ND' | '3RD' | '4TH'
+ */
+export const COHORT_OPTIONS: Cohort[] = ['1ST', '2ND', '3RD', '4TH'];
 
-export const MOCK_STUDENT_NAMES = []; // No longer needed
+// This is no longer needed as we fetch real data from Supabase
+export const MOCK_STUDENT_NAMES = [];
