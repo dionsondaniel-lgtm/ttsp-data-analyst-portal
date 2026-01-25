@@ -1,40 +1,46 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* Base Styles */
 @layer base {
   body {
     font-family: 'Inter', sans-serif;
-    /* This ensures that if a component doesn't have a color, it defaults to high contrast */
-    @apply text-slate-900 bg-slate-50 dark:text-slate-100 dark:bg-[#0f172a] transition-colors duration-300;
+    /* Using standard CSS variables for reliability in v4 */
+    color: var(--color-slate-900);
+    background-color: var(--color-slate-50);
+    transition-property: color, background-color;
+    transition-duration: 300ms;
+  }
+
+  .dark body {
+    color: var(--color-slate-100);
+    background-color: #0f172a;
   }
 }
 
 /* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-.dark ::-webkit-scrollbar-track {
-  background: #0f172a; 
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: #334155; 
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1; 
-  border-radius: 4px;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #475569; 
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .dark ::-webkit-scrollbar-track {
+    background: #0f172a; 
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb {
+    background: #334155; 
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1; 
+    border-radius: 4px;
+  }
 }
 
 /* Glassmorphism Component */
@@ -48,7 +54,7 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
   
-  /* FIXED LIGHT MODE GLASS PANEL: More opaque (0.9) and stronger border */
+  /* FIXED LIGHT MODE GLASS PANEL */
   html:not(.dark) .glass-panel {
     background: rgba(255, 255, 255, 0.9); 
     border: 1px solid rgba(203, 213, 225, 1);
