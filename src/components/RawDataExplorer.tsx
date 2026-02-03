@@ -144,7 +144,14 @@ const RawDataExplorer: React.FC = () => {
       validKeys.forEach(key => {
         if (formData[key] !== undefined) {
           let val = formData[key];
-          if (key.includes('sum') || key.includes('score') || key.includes('no')) val = sanitizeNumeric(val);
+          // FIX: Exclude cohort_no and cellphone_no from sanitizeNumeric even if they contain "no"
+          const isNumericField = (key.includes('sum') || key.includes('score') || key.includes('no')) && 
+                                 key !== 'cohort_no' && 
+                                 key !== 'cellphone_no';
+          
+          if (isNumericField) {
+            val = sanitizeNumeric(val);
+          }
           payload[key] = val;
         }
       });
@@ -207,7 +214,7 @@ const RawDataExplorer: React.FC = () => {
             Object.entries(row).forEach(([rawKey, val]) => {
                 let cleanKey = rawKey.toLowerCase().trim().replace(/\s+/g, '_').replace(/[.]/g, '');
                 
-                // Aggressive mapping for cohort_no (handles: "Cohort", "Cohort No", "Cohort Number")
+                // Aggressive mapping for cohort_no
                 if (cleanKey.includes('cohort')) cleanKey = 'cohort_no';
                 // Aggressive mapping for learner_name
                 if (cleanKey === 'learner' || cleanKey === 'name') {
@@ -402,7 +409,14 @@ const RawDataExplorer: React.FC = () => {
                           {MODULES.map(m => <option key={m} value={m}>{m}</option>)}
                       </select>
                   ) : (
-                      <input className="bg-slate-50 dark:bg-slate-800 border border-slate-200 rounded-xl p-3 text-sm dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-300" value={DATE_COLUMNS.includes(col) ? (formData[col] ? formatToDbDate(formData[col]) : '') : (formData[col] || '')} onChange={e => setFormData({ ...formData, [col]: e.target.value })} required={['name', 'learner_name'].includes(col)} type={DATE_COLUMNS.includes(col) ? 'date' : (col.includes('sum') || col.includes('score') || col.includes('no') ? 'number' : 'text')} step={col === 'score' ? '0.01' : '1'} />
+                      <input 
+                        className="bg-slate-50 dark:bg-slate-800 border border-slate-200 rounded-xl p-3 text-sm dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all hover:border-blue-300" 
+                        value={DATE_COLUMNS.includes(col) ? (formData[col] ? formatToDbDate(formData[col]) : '') : (formData[col] || '')} 
+                        onChange={e => setFormData({ ...formData, [col]: e.target.value })} 
+                        required={['name', 'learner_name'].includes(col)} 
+                        type={DATE_COLUMNS.includes(col) ? 'date' : ((col.includes('sum') || col.includes('score') || col.includes('no')) && col !== 'cohort_no' && col !== 'cellphone_no' ? 'number' : 'text')} 
+                        step={col === 'score' ? '0.01' : '1'} 
+                      />
                   )}
                 </div>
               ))}
