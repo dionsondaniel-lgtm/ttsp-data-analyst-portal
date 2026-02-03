@@ -1,52 +1,48 @@
 import React from 'react';
+// Use "import type" to satisfy verbatimModuleSyntax
+import type { LucideProps } from 'lucide-react';
 
 interface StatCardProps {
   title: string;
   value: string | number;
   trend?: string;
   trendUp?: boolean;
-  icon: React.ReactNode;
+  icon: React.ReactElement<LucideProps>;
   colorClass?: string;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, trend, trendUp, icon, colorClass = "text-blue-600 dark:text-blue-400" }) => {
+const StatCard: React.FC<StatCardProps> = ({ title, value, trend, trendUp, icon, colorClass = "text-blue-600" }) => {
   return (
-    <div className="glass-panel p-6 rounded-2xl relative overflow-hidden transition-all duration-300 hover:transform hover:scale-[1.02] border border-slate-200 dark:border-slate-700/50 bg-white dark:bg-slate-900/40 shadow-sm">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-[2rem] shadow-sm relative overflow-hidden group transition-all hover:scale-[1.02]">
       {/* Decorative Icon in Background */}
-      <div className={`absolute top-0 right-0 p-4 opacity-10 ${colorClass}`}>
-        {React.cloneElement(icon as React.ReactElement<{ size: number }>, { size: 48 })}
+      <div className={`absolute -right-4 -top-4 opacity-5 ${colorClass} scale-[3] rotate-12 transition-transform`}>
+        {React.cloneElement(icon, { size: 48 } as LucideProps)}
       </div>
 
       <div className="relative z-10">
         <div className="flex items-center gap-3 mb-4">
-          <div className={`p-2.5 rounded-xl bg-opacity-10 dark:bg-opacity-20 ${colorClass} bg-current flex items-center justify-center`}>
-            {React.cloneElement(icon as React.ReactElement<{ size: number; className: string }>, { 
-              size: 20, 
-              className: colorClass 
-            })}
+          <div className={`p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 ${colorClass}`}>
+            {React.cloneElement(icon, { size: 18 } as LucideProps)}
           </div>
-          <h3 className="text-slate-500 dark:text-slate-400 text-xs font-black uppercase tracking-widest">{title}</h3>
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">{title}</h3>
         </div>
 
         <div className="flex items-end gap-3">
-          <span className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+          <span className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">
             {value}
           </span>
           
           {trend && (
-            <span className={`text-[10px] font-bold px-2 py-1 rounded-lg mb-1.5 shadow-sm ${
-              trendUp 
-                ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' 
-                : 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400'
+            <span className={`text-[10px] font-bold px-2 py-1 rounded-lg mb-1.5 ${
+              trendUp !== false 
+                ? 'bg-emerald-100 text-emerald-600' 
+                : 'bg-red-100 text-red-600'
             }`}>
               {trend}
             </span>
           )}
         </div>
       </div>
-
-      {/* Decorative gradient blob */}
-      <div className={`absolute -bottom-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-10 dark:opacity-20 bg-current ${colorClass}`}></div>
     </div>
   );
 };
