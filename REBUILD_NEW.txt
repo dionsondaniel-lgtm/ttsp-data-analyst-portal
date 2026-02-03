@@ -7,29 +7,26 @@ npm run build
 
 2. RUN BELOW TO UPDATE FINAL
 
-# Stage all changes
+# 1. Stage all changes
 git add .
 
-# Ask for commit message
+# 2. Ask for commit message
 $msg = Read-Host "Commit message"
 
 if (-not $msg) {
-    Write-Host "Commit aborted: empty message"
+    Write-Host "Commit aborted: empty message" -ForegroundColor Red
     exit 1
 }
 
-# Commit changes
+# 3. Commit changes
 git commit -m "$msg"
 
-# Push to the current branch
+# 4. Push to GitHub
+# This command automatically triggers Vercel to build and deploy!
 $branch = git rev-parse --abbrev-ref HEAD
 git push origin $branch
 
-# Build the Vite app
-npm run build
-
-# Optional: Deploy to Vercel if you have Vercel CLI installed
-# vercel --prod
+Write-Host "Successfully pushed to GitHub. Vercel is now building your update!" -ForegroundColor Green
 
 
 ==================================================================
