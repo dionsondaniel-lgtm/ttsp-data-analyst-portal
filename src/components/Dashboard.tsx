@@ -16,8 +16,10 @@ import type { Cohort, Module, StudentStat } from '../types';
 import { DashboardSkeleton } from './Skeleton';
 import RawDataExplorer from './RawDataExplorer';
 
+// UPDATE THIS INTERFACE
 interface DashboardProps {
   activeTab: string;
+  theme: 'light' | 'dark'; // Add this line to fix the TS error
 }
 
 const COHORTS: Cohort[] = ['1ST', '2ND', '3RD', '4TH'];
